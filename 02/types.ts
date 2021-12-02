@@ -5,4 +5,8 @@ export interface Command {
   units: number;
 }
 
-export type Position = [horizontal: number, depth: number];
+export interface State {
+  aim: number;
+  horizontal: number;
+  depth: number;
+}

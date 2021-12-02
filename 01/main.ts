@@ -1,14 +1,5 @@
-import * as path from "https://deno.land/std@0.116.0/path/mod.ts";
-
 import { Result, Totals } from "./types.ts";
-
-const __dirname = path.dirname(path.fromFileUrl(import.meta.url));
-
-const getReadings = async (filename: string) => {
-  const decoder = new TextDecoder("utf-8");
-  const buffer = await Deno.readFile(path.join(__dirname, filename));
-  return decoder.decode(buffer).split("\n").map((line) => parseInt(line));
-};
+import { __dirname, readLines } from "../lib/fs.ts";
 
 const calculate = (readings: number[]): Result[] => {
   return readings.map(
@@ -51,10 +42,9 @@ const formatResult = (result: Result) => {
   return `${result.reading} (${result.differential}) (${result.sum3}) (${result.sum3Differential})`;
 };
 
-const main = async (args: string[]) => {
-  const [filename = "readings"] = args;
-  const readings = await getReadings(filename);
-  const results = calculate(readings);
+export const main = async () => {
+  const lines = await readLines(__dirname(import.meta.url), "readings");
+  const results = calculate(lines.map((x) => parseInt(x)));
   const totals = calculateTotals(results);
 
   console.log(results.map(formatResult).join("\n"));
@@ -63,8 +53,3 @@ const main = async (args: string[]) => {
     Object.entries(totals).map(([key, val]) => `${key}: ${val}`).join("\n"),
   );
 };
-
-main(Deno.args).then(() => Deno.exit(0)).catch((error) => {
-  console.error(error);
-  Deno.exit(1);
-});

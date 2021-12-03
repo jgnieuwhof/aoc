@@ -1,19 +1,8 @@
-use std::env;
-use std::io::{BufRead, BufReader};
-use std::fs::File;
+use lib;
 
 fn main() {
-  let input_path = env::current_dir()
-    .unwrap()
-    .join("day-01/input.txt");
-
-  let reader = BufReader::new(
-    File::open(input_path).expect("Unable to read file")
-  );
-
-  let nums: Vec<i32> = reader.lines().into_iter().map(|l| {
-      l.unwrap().parse().unwrap_or(0)
-  }).collect();
+  let lines = lib::file_to_vector("day-01-part-2/input.txt");
+  let nums = lines.iter().map(|l| l.parse().unwrap_or(0)).collect::<Vec<i32>>();
 
   let mut combinations: Vec<(i32, i32, i32)> = Vec::new();
 

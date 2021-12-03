@@ -1,8 +1,6 @@
 <h1 align="center" border="none">
-  Advent of Code
   <br/>
-  <br/>
-  🎄
+  🎄 2021 🎄
   <br/>
   <br/>
 </h1>

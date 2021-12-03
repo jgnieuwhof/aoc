@@ -1,7 +1,7 @@
 use lib;
 
 fn main() {
-  let lines = lib::file_to_vector("day-01-part-2/input.txt");
+  let lines = lib::file_to_vector("day-01/input.txt");
   let nums = lines.iter().map(|l| l.parse().unwrap_or(0)).collect::<Vec<i32>>();
 
   let mut combinations: Vec<(i32, i32, i32)> = Vec::new();

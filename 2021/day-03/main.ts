@@ -1,7 +1,6 @@
 import { __dirname, readLines } from "../lib/fs.ts";
 
-export const main = async () => {
-  const lines = await readLines(__dirname(import.meta.url), "input.txt");
+export const calculate = (lines: string[]) => {
   const { length } = lines[0];
 
   const counts = lines.reduce<number[]>(
@@ -13,14 +12,23 @@ export const main = async () => {
   let epsilon = 0x00;
 
   for (const count of counts) {
+    gamma = gamma << 1;
+    epsilon = epsilon << 1;
+
     if (count > lines.length / 2) {
       gamma++;
     } else {
       epsilon++;
     }
-    gamma = gamma << 1;
-    epsilon = epsilon << 1;
   }
+
+  return { gamma, epsilon };
+};
+
+export const main = async () => {
+  const lines = await readLines(__dirname(import.meta.url), "input.txt");
+
+  const { gamma, epsilon } = calculate(lines);
 
   console.log(`g ${gamma} e ${epsilon} p ${gamma * epsilon}`);
 };

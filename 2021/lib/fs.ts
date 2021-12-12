@@ -4,8 +4,12 @@ export const __dirname = (importMetaUrl: string) => {
   return path.dirname(path.fromFileUrl(importMetaUrl));
 };
 
-export const readLines = async (...paths: string[]) => {
+export const readFile = async (...paths: string[]) => {
   const decoder = new TextDecoder("utf-8");
   const buffer = await Deno.readFile(path.join(...paths));
-  return decoder.decode(buffer).split("\n");
+  return decoder.decode(buffer);
+};
+
+export const readLines = async (...paths: string[]) => {
+  return (await readFile(...paths)).split("\n");
 };

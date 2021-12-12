@@ -89,6 +89,5 @@ export const main = async () => {
   const grid = createGrid(coordinates);
   const filled = fillGrid(coordinates, grid);
 
-  console.log(printGrid(filled));
   console.log(`answer: ${calculateAnswer(filled)}`);
 };

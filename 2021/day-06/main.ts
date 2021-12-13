@@ -36,5 +36,5 @@ export const simulate = (school: School, days = 10): School => {
 export const main = async () => {
   const input = await readFile(__dirname(import.meta.url), "input.txt");
   const school = parseSchool(input);
-  console.log(`🐟 at t = 80 : ${simulate(school, 80).length}`);
+  console.log(`🐟 at t = 80 : ${simulate(school, 256).length}`);
 };

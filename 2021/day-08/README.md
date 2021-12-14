@@ -1,23 +1,28 @@
 <article class="day-desc"><h2>--- Day 8: Seven Segment Search ---</h2><p>You barely reach the safety of the cave when the whale smashes into the cave mouth, collapsing it. Sensors indicate another exit to this cave at a much greater depth, so you have no choice but to press on.</p>
 <p>As your submarine slowly makes its way through the cave system, you notice that the four-digit <a href="https://en.wikipedia.org/wiki/Seven-segment_display" target="_blank">seven-segment displays</a> in your submarine are malfunctioning; <span title="Yes, just the four-digit seven-segment ones. Whole batch must have been faulty.">they must have been damaged</span> during the escape. You'll be in a lot of trouble without them, so you'd better figure out what's wrong.</p>
 <p>Each digit of a seven-segment display is rendered by turning on or off any of seven segments named <code>a</code> through <code>g</code>:</p>
-<pre><code>  0:      1:      2:      3:      4:
- <em>aaaa</em>    ....    <em>aaaa    aaaa</em>    ....
-<em>b    c</em>  .    <em>c</em>  .    <em>c</em>  .    <em>c  b    c</em>
-<em>b    c</em>  .    <em>c</em>  .    <em>c</em>  .    <em>c  b    c</em>
- ....    ....    <em>dddd    dddd    dddd</em>
-<em>e    f</em>  .    <em>f  e</em>    .  .    <em>f</em>  .    <em>f</em>
-<em>e    f</em>  .    <em>f  e</em>    .  .    <em>f</em>  .    <em>f</em>
- <em>gggg</em>    ....    <em>gggg    gggg</em>    ....
 
-5: 6: 7: 8: 9:
-<em>aaaa aaaa aaaa aaaa aaaa</em>
-<em>b</em> . <em>b</em> . . <em>c b c b c</em>
-<em>b</em> . <em>b</em> . . <em>c b c b c</em>
-<em>dddd dddd</em> .... <em>dddd dddd</em> . <em>f e f</em> . <em>f e f</em> .
-<em>f</em> . <em>f e f</em> . <em>f e f</em> . <em>f</em>
-<em>gggg gggg</em> .... <em>gggg gggg</em>
-</code></pre>
+```
+  0:      1:      2:      3:      4:
+ aaaa    ....    aaaa    aaaa    ....
+b    c  .    c  .    c  .    c  b    c
+b    c  .    c  .    c  .    c  b    c
+ ....    ....    dddd    dddd    dddd
+e    f  .    f  e    .  .    f  .    f
+e    f  .    f  e    .  .    f  .    f
+ gggg    ....    gggg    gggg    ....
+```
+
+```
+  5:      6:      7:      8:      9:
+ aaaa    aaaa    aaaa    aaaa    aaaa
+b    .  b    .  .    c  b    c  b    c
+b    .  b    .  .    c  b    c  b    c
+ dddd    dddd    ....    dddd    dddd
+.    f  e    f  .    f  e    f  .    f
+.    f  e    f  .    f  e    f  .    f
+ gggg    gggg    ....    gggg    gggg
+```
 
 <p>So, to render a <code>1</code>, only segments <code>c</code> and <code>f</code> would be turned on; the rest would be off. To render a <code>7</code>, only segments <code>a</code>, <code>c</code>, and <code>f</code> would be turned on.</p>
 <p>The problem is that the signals which control the segments have been mixed up on each display. The submarine is still trying to display numbers by producing output on signal wires <code>a</code> through <code>g</code>, but those wires are connected to segments <em>randomly</em>. Worse, the wire/segment connections are mixed up separately for each four-digit display! (All of the digits <em>within</em> a display use the same connections, though.)</p>

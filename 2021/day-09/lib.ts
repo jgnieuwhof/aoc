@@ -1,7 +1,6 @@
 import {
   green,
   red,
-  white,
   yellow,
 } from "https://deno.land/x/nanocolors@0.1.12/mod.ts";
 

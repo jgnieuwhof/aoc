@@ -65,8 +65,8 @@ export const parse = (input: string): CaveSystem => {
   return system;
 };
 
-const printCaves = (system: CaveSystem) => {
-  return [...system.caves].map((c) => c.id).join(", ");
+export const printCaves = (caves: Cave[]) => {
+  return caves.map((c) => c.id).join(", ");
 };
 
 const printTunnels = (system: CaveSystem) => {
@@ -78,14 +78,24 @@ const printTunnels = (system: CaveSystem) => {
 };
 
 export const print = (system: CaveSystem): string => {
-  return `caves: ${printCaves(system)}\ntunnels:\n${printTunnels(system)}`;
+  return `caves: ${printCaves([...system.caves])}\ntunnels:\n${
+    printTunnels(system)
+  }`;
 };
+
+const isStart = (cave: Cave) => cave.id === "start";
 
 const isEnd = (cave: Cave) => cave.id === "end";
 
 const isBig = (cave: Cave) => isUppercase(cave.id);
 
-const spelunk = (path: Path): Path[] => {
+const isSmall = (cave: Cave) => !isBig(cave);
+
+const maxVisits = (cave: Cave, special: Cave) => {
+  return cave === special ? 2 : 1;
+};
+
+const spelunk = (path: Path, special: Cave): Path[] => {
   const current = path.slice(-1)[0];
 
   if (isEnd(current)) {
@@ -93,10 +103,22 @@ const spelunk = (path: Path): Path[] => {
   }
 
   return [...current.tunnels]
-    .filter((cave) => isBig(cave) || !path.find(({ id }) => cave.id === id))
-    .flatMap((cave) => spelunk([...path, cave]));
+    .filter(
+      (cave) =>
+        isBig(cave) ||
+        path.filter((c) => cave.id === c.id).length <
+          maxVisits(cave, special),
+    )
+    .flatMap((cave) => spelunk([...path, cave], special));
 };
 
 export const pathfind = (system: CaveSystem): Path[] => {
-  return spelunk([system.start]);
+  const paths = [...system.caves]
+    .filter((cave) => isSmall(cave) && !isStart(cave) && !isEnd(cave))
+    .flatMap((special) => spelunk([system.start], special))
+    .reduce<Record<string, Path>>((set, path) => {
+      set[printCaves(path)] ??= path;
+      return set;
+    }, {});
+  return Object.values(paths);
 };

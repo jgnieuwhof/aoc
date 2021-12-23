@@ -1,4 +1,4 @@
-export class MultiSet<T extends { id: string }> {
+export class SetById<T extends { id: string }> {
   private set = new Set<string>();
   private objects: Record<string, T[]> = {};
 

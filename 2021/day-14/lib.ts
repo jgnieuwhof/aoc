@@ -25,14 +25,15 @@ export const parse = (input: string): Instructions => {
 };
 
 const mergeCounts = (...counts: Count[]): Count => {
-  const merged: Count = {};
-  for (const count of counts) {
-    for (const [element, n] of Object.entries(count)) {
-      merged[element] ??= 0;
-      merged[element] += n;
-    }
-  }
-  return merged;
+  return counts
+    .flatMap(Object.entries)
+    .reduce<Count>(
+      (merged, [element, n]) => ({
+        ...merged,
+        [element]: (merged[element] ?? 0) + n,
+      }),
+      {},
+    );
 };
 
 const recurse = (
@@ -45,15 +46,13 @@ const recurse = (
     if (!rules[pair] || depth === maxDepth) {
       return { [pair[0]]: 1 };
     }
-
     if (cache[pair]?.[depth]) {
       return cache[pair][depth];
     }
-
-    const children = [pair[0] + rules[pair], rules[pair] + pair[1]];
-
     const count = mergeCounts(
-      ...children.map(recurse(rules, depth + 1, maxDepth, cache)),
+      ...[pair[0] + rules[pair], rules[pair] + pair[1]].map(
+        recurse(rules, depth + 1, maxDepth, cache),
+      ),
     );
     (cache[pair] ??= {})[depth] = count;
     return count;
